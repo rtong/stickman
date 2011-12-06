@@ -18,14 +18,14 @@ function draw(){
     drawStickMan(startX, startY, context);
 }
 
-function drawHead(context, startX, startY, headSize) {
+function drawHead(context, stickMan) {
     context.beginPath();
-    context.arc(startX, startY, headSize, 0, Math.PI * 2, true);
+    context.arc(stickMan.startX, stickMan.startY, stickMan.headSize, 0, Math.PI * 2, true);
     context.closePath();
 }
-function drawBody(context, startX, startY, headSize, pelvisX, pelvisY) {
-    context.moveTo(startX, startY + headSize);
-    context.lineTo(pelvisX, pelvisY);
+function drawBody(context,stickMan) {
+    context.moveTo(stickMan.startX, stickMan.startY + stickMan.headSize);
+    context.lineTo(stickMan.pelvisX, stickMan.pelvisY);
 }
 function drawRightLeg(context, pelvisX, stride, pelvisY, bodyLength) {
     context.lineTo(pelvisX - stride, pelvisY + bodyLength);
@@ -60,8 +60,8 @@ function drawStickMan(startX, startY, context){
     context.moveTo(startX,startY);
     context.strokeStyle = "#000000";
     context.lineWidth = "5.0";
-    drawHead(context, stickMan.startX, startY, stickMan.headSize);
-    drawBody(context, stickMan.startX, stickMan.startY, stickMan.headSize, stickMan.pelvisX, stickMan.pelvisY);
+    drawHead(context, stickMan);
+    drawBody(context, stickMan);
     drawRightLeg(context, stickMan.pelvisX, stickMan.stride, stickMan.pelvisY, stickMan.bodyLength);
     drawLeftleg(context, stickMan.pelvisX, stickMan.pelvisY, stickMan.stride, stickMan.bodyLength);
     drawArms(context, stickMan.startX, stickMan.armLength, stickMan.startY, stickMan.bodyLength);
