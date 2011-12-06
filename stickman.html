@@ -38,24 +38,36 @@ function drawArms(context, startX, armLength, startY, bodyLength) {
     context.moveTo(startX - armLength, startY + (bodyLength / 2));
     context.lineTo(startX + armLength, startY + (bodyLength / 2));
 }
+
+
+function StickMan(startX, startY){
+    this.startX = startX;
+    this.startY = startY;
+    this.headSize = 30;
+    this.bodyLength = 120;
+    this.pelvisX = startX;
+    this.pelvisY = startY+this.bodyLength;
+    this.stride = 50;
+    this.armLength = this.bodyLength/2;
+
+
+}
 function drawStickMan(startX, startY, context){
-    var headSize = 30,
-        bodyLength = 120,
-        pelvisX = startX,
-        pelvisY = startY+bodyLength,
-        stride = 50,
-        armLength = bodyLength/2;
+
+    var stickMan = new StickMan(startX, startY);
+    
     
     context.moveTo(startX,startY);
     context.strokeStyle = "#000000";
     context.lineWidth = "5.0";
-    drawHead(context, startX, startY, headSize);
-    drawBody(context, startX, startY, headSize, pelvisX, pelvisY);
-    drawRightLeg(context, pelvisX, stride, pelvisY, bodyLength);
-    drawLeftleg(context, pelvisX, pelvisY, stride, bodyLength);
-    drawArms(context, startX, armLength, startY, bodyLength);
+    drawHead(context, stickMan.startX, startY, stickMan.headSize);
+    drawBody(context, stickMan.startX, stickMan.startY, stickMan.headSize, stickMan.pelvisX, stickMan.pelvisY);
+    drawRightLeg(context, stickMan.pelvisX, stickMan.stride, stickMan.pelvisY, stickMan.bodyLength);
+    drawLeftleg(context, stickMan.pelvisX, stickMan.pelvisY, stickMan.stride, stickMan.bodyLength);
+    drawArms(context, stickMan.startX, stickMan.armLength, stickMan.startY, stickMan.bodyLength);
     context.stroke();
 }
+
 
 function drawSpeechBubble(startX, startY, context){
     context.lineWidth="2.0";
