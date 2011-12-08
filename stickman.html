@@ -4,19 +4,6 @@
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script> 
 <script type="text/javascript">
-function draw(){
-    var graphCanvas = document.getElementById('graphSpace');
-    var context = graphCanvas.getContext('2d');
-
-    var startX=100,
-        startY=175;
-            
-    drawStickMan(startX, startY, context);
-    
-    drawSpeechBubble(startX+35,startY-35,context);
-    startX=500;    
-    drawStickMan(startX, startY, context);
-}
 
 function drawHead(context, stickMan) {
     context.beginPath();
@@ -27,16 +14,16 @@ function drawBody(context,stickMan) {
     context.moveTo(stickMan.startX, stickMan.startY + stickMan.headSize);
     context.lineTo(stickMan.pelvisX, stickMan.pelvisY);
 }
-function drawRightLeg(context, pelvisX, stride, pelvisY, bodyLength) {
-    context.lineTo(pelvisX - stride, pelvisY + bodyLength);
+function drawRightLeg(context, stickMan) {
+    context.lineTo(stickMan.pelvisX - stickMan.stride, stickMan.pelvisY + stickMan.bodyLength);
 }
-function drawLeftleg(context, pelvisX, pelvisY, stride, bodyLength) {
-    context.moveTo(pelvisX, pelvisY)
-    context.lineTo(pelvisX + stride, pelvisY + bodyLength);
+function drawLeftleg(context, stickMan) {
+    context.moveTo(stickMan.pelvisX, stickMan.pelvisY)
+    context.lineTo(stickMan.pelvisX + stickMan.stride, stickMan.pelvisY +stickMan.bodyLength);
 }
-function drawArms(context, startX, armLength, startY, bodyLength) {
-    context.moveTo(startX - armLength, startY + (bodyLength / 2));
-    context.lineTo(startX + armLength, startY + (bodyLength / 2));
+function drawArms(context, stickMan) {
+    context.moveTo(stickMan.startX - stickMan.armLength, stickMan.startY + (stickMan.bodyLength / 2));
+    context.lineTo(stickMan.startX + stickMan.armLength, stickMan.startY + (stickMan.bodyLength / 2));
 }
 
 
@@ -52,21 +39,44 @@ function StickMan(startX, startY){
 
 
 }
-function drawStickMan(startX, startY, context){
+
+function StickManRenderer(context) {
+    this.context = context;
+}
+
+StickManRenderer.prototype.drawStickMan = function(stickMan) {
+
+    this.context.moveTo(stickMan.startX, stickMan.startY);
+    this.context.strokeStyle = "#000000";
+    this.context.lineWidth = "5.0";
+    drawHead(this.context, stickMan);
+    drawBody(this.context, stickMan);
+    drawRightLeg(this.context, stickMan);
+    drawLeftleg(this.context, stickMan);
+    drawArms(this.context, stickMan);
+    this.context.stroke();
+    console.log("here");
+}
+
+function draw(){
+    var graphCanvas = document.getElementById('graphSpace');
+    var context = graphCanvas.getContext('2d');
+    var renderer = new StickManRenderer(context);
+    var startX=100,
+        startY=175;
 
     var stickMan = new StickMan(startX, startY);
+    renderer.drawStickMan(stickMan);
+
+    drawSpeechBubble(startX+35,startY-35,context);
+    startX=500;
+    stickMan = new StickMan(startX, startY);
+    renderer.drawStickMan(stickMan);
     
-    
-    context.moveTo(startX,startY);
-    context.strokeStyle = "#000000";
-    context.lineWidth = "5.0";
-    drawHead(context, stickMan);
-    drawBody(context, stickMan);
-    drawRightLeg(context, stickMan.pelvisX, stickMan.stride, stickMan.pelvisY, stickMan.bodyLength);
-    drawLeftleg(context, stickMan.pelvisX, stickMan.pelvisY, stickMan.stride, stickMan.bodyLength);
-    drawArms(context, stickMan.startX, stickMan.armLength, stickMan.startY, stickMan.bodyLength);
-    context.stroke();
 }
+
+
+
 
 
 function drawSpeechBubble(startX, startY, context){
