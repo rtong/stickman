@@ -4,7 +4,8 @@
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script> 
 <script type="text/javascript" src="lib/stickman.js"></script> 
-<script type="text/javascript" src="lib/stickmanrenderer.js"></script> 
+<script type="text/javascript" src="lib/stickmanrenderer.js"></script>
+<script type="text/javascript" src="lib/raphael-min.js"></script> 
 <script type="text/javascript">
 
 
@@ -72,10 +73,24 @@ function drawSpeechBubble(startX, startY, context){
 function radians(degrees){
      return (Math.PI/180)*degrees;
 }
+
+function drawSvg(){
+    var paper = document.getElementById('paper');
+    console.log(paper);
+    
+	var circle = paper.createElementNS("","circle");
+	circle.setAttribute("cx",0);
+	circle.setAttribute("cy",0);
+	circle.setAttribute("r", 50);
+}
 </script>
 </head>
-<body onLoad="draw();">
+<body >
 <canvas id="graphSpace" width="800" height="400"></canvas>
-</div>
+<svg id="paper" width="800" height="400" >
+</svg>
+<script type="text/javascript">
+	drawSvg();
+</script>
 </body>
 </html>
